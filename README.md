@@ -33,7 +33,7 @@ module.exports = function(config) {
     // the default configuration
     htmlReporter: {
       outputDir: 'karma_html', // where to put the reports 
-      includeMarkdown: null, // whether you want a README.md file generated along with the HTML or not
+      includeMarkdown: false, // whether you want a README.md file generated along with the HTML or not
       focusOnFailures: true, // reports show failures on start
       namedFiles: false, // name files instead of creating sub-directories
       pageTitle: null, // page title for reports; browser info by default
