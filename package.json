@@ -1,7 +1,7 @@
 {
-  "name": "karma-html-reporter",
-  "version": "0.2.6",
-  "description": "A Karma plugin. Report results in pretty html format.",
+  "name": "karma-htmlmarkdown-reporter",
+  "version": "0.2.7",
+  "description": "A Karma plugin. Report results in pretty html format. And Markdown!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,14 +12,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/dtabuenc/karma-html-reporter"
+    "url": "git://github.com/briwa/karma-htmlmarkdown-reporter"
   },
   "keywords": [
     "karma-plugin",
     "karma-reporter",
-    "html"
+    "html",
+    "markdown"
   ],
-  "author": "Daniel Tabuenca <dtabuenc@gmail.com>",
+  "author": "Briwa <shabriwa.shalat@gmail.com>",
   "dependencies": {
     "mu2": "~0.5.19",
     "lodash": "~2.2.0"

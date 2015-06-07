@@ -56,7 +56,8 @@ var HtmlReporter = function(baseReporterDecorator, config, emitter, logger, help
 
 	this.onRunComplete = function(browsers) {
 		
-		pendingFileWritings = browsers.length;
+		// since we're now writing two files (html and markdown) for each browser
+		pendingFileWritings = (browsers.length)*(~~(config.includeMarkdown));
 		browsers.forEach(function(browser) {
 			var results = browserResults[browser.id];
 
@@ -79,13 +80,20 @@ var HtmlReporter = function(baseReporterDecorator, config, emitter, logger, help
 			results.pageTitle = config.pageTitle || reportName; // inject into head 
 			if (config.urlFriendlyName) reportName = reportName.replace(/ /g, '_');
 			var reportFile = outputDir + '/' + reportName + (namedFiles ? '.html' : '/index.html');
-			var writeStream;
-			
+			var markdownReportFile = outputDir + '/' + reportName + '/README.md';
 			results.date = new Date().toDateString();
+
+			var writeStream, htmlTemplatePath, htmlTemplate, markdownWriteStream, markdownTemplatePath, markdownTemplate;
 			
-			var templatePath = config.templatePath || __dirname + "/jasmine_template.html";
-			var template = mu.compileAndRender(templatePath, results);
-			template.pause();
+			htmlTemplatePath = __dirname + "/jasmine_html_template.html";
+			htmlTemplate = mu.compileAndRender(htmlTemplatePath, results);
+			htmlTemplate.pause();
+
+			if (config.includeMarkdown) {
+				markdownTemplatePath = __dirname + "/jasmine_markdown_template.md";
+				markdownTemplate = mu.compileAndRender(markdownTemplatePath, results);
+				markdownTemplate.pause();
+			}
 			
 			helper.mkdirIfNotExists(path.dirname(reportFile), function() {
 
@@ -101,11 +109,32 @@ var HtmlReporter = function(baseReporterDecorator, config, emitter, logger, help
 					if (!--pendingFileWritings) {
 						fileWritingFinished();
 					}
-					template = null;
+					htmlTemplate = null;
 				});
 
-				template.pipe(writeStream);
-				template.resume();
+				htmlTemplate.pipe(writeStream);
+				htmlTemplate.resume();
+
+				// for markdown
+				if (config.includeMarkdown) {
+					markdownWriteStream = fs.createWriteStream(markdownReportFile, function(err) {
+						if (err) {
+							log.warn('Cannot write Markdown Report\n\t' + err.message);
+						} else {
+							log.debug('Markdown report written to "%s".', markdownReportFile);
+						}
+					});
+
+					markdownWriteStream.on('finish', function() {
+						if (!--pendingFileWritings) {
+							fileWritingFinished();
+						}
+						markdownTemplate = null;
+					});
+
+					markdownTemplate.pipe(markdownWriteStream);
+					markdownTemplate.resume();
+				}
 			});
 
 		});
@@ -241,6 +270,10 @@ var HtmlReporter = function(baseReporterDecorator, config, emitter, logger, help
 			else {
 				newSpec.state = "failed";
 			}
+
+			// rewrite all spec time to seconds based
+			newSpec.time = newSpec.state === 'failed' ? null : ((newSpec.time || 0) / 1000)+'s';
+
 			return newSpec;
 		});
 	}

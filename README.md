@@ -1,22 +1,26 @@
-# karma-html-reporter
+# karma-htmlmarkdown-reporter
 
-> Reporter that formats results in HTML similar to jasmine.
+Reporter that formats results in HTML similar to jasmine. And Markdown file!
+
+An improvement based on https://github.com/dtabuenc/karma-html-reporter, with an additional `README.md` Markdown file generated along with the HTML file.
+
+This reporter basically generates HTML and Markdown file for your Karma test result based on the template `jasmine_html_template.html` and `jasmine_markdown_template.md`.
 
 ## Installation
 
-The easiest way is to keep `karma-html-reporter` as a devDependency in your `package.json`.
+The easiest way is to keep `karma-htmlmarkdown-reporter` as a devDependency in your `package.json`.
 ```json
 {
   "devDependencies": {
     "karma": "~0.10",
-    "karma-html-reporter": "~0.1"
+    "karma-htmlmarkdown-reporter": "~0.1"
   }
 }
 ```
 
 You can simply do it by:
 ```bash
-npm install karma-html-reporter --save-dev
+npm install karma-htmlmarkdown-reporter --save-dev
 ```
 
 ## Configuration
@@ -29,7 +33,7 @@ module.exports = function(config) {
     // the default configuration
     htmlReporter: {
       outputDir: 'karma_html', // where to put the reports 
-      templatePath: null, // set if you moved jasmine_template.html
+      includeMarkdown: null, // whether you want a README.md file generated along with the HTML or not
       focusOnFailures: true, // reports show failures on start
       namedFiles: false, // name files instead of creating sub-directories
       pageTitle: null, // page title for reports; browser info by default
@@ -59,5 +63,6 @@ karma start --reporters html,dots
 
 For more information on Karma see the [homepage].
 
-
 [homepage]: http://karma-runner.github.com
+
+Kudos to the original author Daniel Tabuenca <dtabuenc@gmail.com> for making this awesome [reporter](https://github.com/dtabuenc/karma-html-reporter).

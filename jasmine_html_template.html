@@ -45,6 +45,7 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 #HTMLReporter .summary .specSummary.passed { color: #5e7d00; }
 #HTMLReporter .summary .specSummary.failed { color: #b03911; }
 #HTMLReporter .summary .specSummary.skipped { color: #ba9d37; }
+#HTMLReporter .summary .specSummary .time { font-size: 0.8em; color: #888; }
 #HTMLReporter .description + .suite { margin-top: 0; }
 #HTMLReporter .suite { margin-top: 14px; }
 #HTMLReporter .suite a { color: #333333; }
@@ -136,6 +137,7 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
     {{#specs}}
       <div class="specSummary {{state}}">
       <span class="description">{{description}}</span>
+      {{#time}}<span class="time">finished in {{time}}</span>{{/time}}
       </div>
     {{/specs}}
     </div>
