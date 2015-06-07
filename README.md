@@ -2,7 +2,7 @@
 
 Reporter that formats results in HTML similar to jasmine. And Markdown file!
 
-An improvement based on https://github.com/dtabuenc/karma-html-reporter, with an additional `README.md` Markdown file generated along with the HTML file.
+An improvement based on [https://github.com/dtabuenc/karma-html-reporter](https://github.com/dtabuenc/karma-html-reporter), with an additional `README.md` Markdown file generated along with the HTML file.
 
 This reporter basically generates HTML and Markdown file for your Karma test result based on the template `jasmine_html_template.html` and `jasmine_markdown_template.md`.
 
