@@ -97,12 +97,9 @@ var HtmlReporter = function(baseReporterDecorator, config, emitter, logger, help
 			
 			helper.mkdirIfNotExists(path.dirname(reportFile), function() {
 
-				writeStream = fs.createWriteStream(reportFile, function(err) {
-					if (err) {
+				writeStream = fs.createWriteStream(reportFile);
+				writeStream.on('error', function(err) {
 						log.warn('Cannot write HTML Report\n\t' + err.message);
-					} else {
-						log.debug('HTML report written to "%s".', reportFile);
-					}
 				});
 
 				writeStream.on('finish', function() {
@@ -117,12 +114,9 @@ var HtmlReporter = function(baseReporterDecorator, config, emitter, logger, help
 
 				// for markdown
 				if (config.includeMarkdown) {
-					markdownWriteStream = fs.createWriteStream(markdownReportFile, function(err) {
-						if (err) {
+					markdownWriteStream = fs.createWriteStream(markdownReportFile);
+					markdownWriteStream.on('error', function(err) {
 							log.warn('Cannot write Markdown Report\n\t' + err.message);
-						} else {
-							log.debug('Markdown report written to "%s".', markdownReportFile);
-						}
 					});
 
 					markdownWriteStream.on('finish', function() {
